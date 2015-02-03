@@ -9,6 +9,8 @@ class UsersController < ApplicationController
 
   def bitshares_account
     @reg_status = nil
+    @users = current_user
+    
     if session[:pending_registration]
       reg = session[:pending_registration]
       do_register(reg['account_name'], reg['account_key'])
@@ -28,6 +30,18 @@ class UsersController < ApplicationController
         sign_in(user, :bypass => true)
         redirect_to profile_path, notice: 'We sent you a confirmation link. Please confirm your email'
       end
+    end
+  end
+
+  def subscribe
+    new_status = !current_user.newsletter_subscribed
+    subscription = current_user.subscribe(new_status)
+
+    if subscription.is_a?(Array) && subscription[:email]
+      current_user.update_attribute(:newsletter_subscribed, new_status)
+      render nothing: true
+    else
+      render json: { res: subscription }
     end
   end
 

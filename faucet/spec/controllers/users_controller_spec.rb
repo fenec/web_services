@@ -23,4 +23,18 @@ describe UsersController do
       expect { patch :finish_signup, id: user.id, user: {email: 'new@email.com'} }.to change { ActionMailer::Base.deliveries.count }.by(1)
     end
   end
+
+  #describe "#subscribe" do
+  #  it "should unsubscribe subscribed user" do
+  #    subject.current_user.newsletter_subscribed = true
+  #    xhr :get, :subscribe
+  #    expect(subject.current_user.newsletter_subscribed).to eq(false)
+  #  end
+  #
+  #  it "should subscribe unsubscribed user" do
+  #    subject.current_user.newsletter_subscribed = false
+  #    xhr :get, :subscribe
+  #    expect(subject.current_user.newsletter_subscribed).to eq(true)
+  #  end
+  #end
 end
